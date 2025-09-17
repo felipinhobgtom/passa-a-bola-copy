@@ -1,5 +1,5 @@
 'use client';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
@@ -35,7 +35,7 @@ export default function EditProfilePage() {
         }
 
         async function fetchProfile() {
-            const res = await fetch(`${API_URL}/api/profiles/me`, {
+            const res = await fetch(apiPath('/api/profiles/me'), {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             
@@ -92,7 +92,7 @@ export default function EditProfilePage() {
         delete profileDataToSend.id;
         delete profileDataToSend.user_id;
 
-        const res = await fetch(`${API_URL}/api/profiles/me`, {
+        const res = await fetch(apiPath('/api/profiles/me'), {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ export default function EditProfilePage() {
         const formData = new FormData();
         formData.append('file', pfpFile);
 
-        const res = await fetch(`${API_URL}/api/profiles/me/profile-picture`, {
+        const res = await fetch(apiPath('/api/profiles/me/profile-picture'), {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${token}` },
             body: formData,
@@ -141,7 +141,7 @@ export default function EditProfilePage() {
         const formData = new FormData();
         formData.append('file', mediaFile);
 
-        const res = await fetch(`${API_URL}/api/profiles/me/media`, {
+        const res = await fetch(apiPath('/api/profiles/me/media'), {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${token}` },
             body: formData,

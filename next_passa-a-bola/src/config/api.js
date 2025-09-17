@@ -1,12 +1,23 @@
 // API configuration
-// Server-side (inside the frontend container): use the Docker service name.
-// Client-side (in the user's browser): use relative URLs and let Next.js rewrites
-// proxy the request to the backend container. This avoids hitting localhost directly.
+// Server-side: use the Docker service name.
+// Client-side: use relative URLs and let Next.js rewrites proxy to the backend container.
 
-const isServer = typeof window === 'undefined';
+const isServerSide = () => typeof window === 'undefined';
 
-const API_URL = isServer
-	? process.env.INTERNAL_API_URL || 'http://backend:8000'
-	: '';
+const getApiBase = () =>
+	isServerSide() ? (process.env.INTERNAL_API_URL || 'http://backend:8000') : '';
+
+// Export a dynamic value that resolves at runtime in both server and client.
+// Using Symbol.toPrimitive ensures template literals like `${API_URL}/api/...`
+// stringify this object into the correct base URL for the current runtime.
+const API_URL = {
+	[Symbol.toPrimitive]: () => getApiBase(),
+	toString: () => getApiBase(),
+	valueOf: () => getApiBase(),
+};
+
+// Build a full URL only on the server; return a relative path on the client
+const apiPath = (path) => (isServerSide() ? `${getApiBase()}${path}` : path);
 
 export default API_URL;
+export { getApiBase, apiPath };

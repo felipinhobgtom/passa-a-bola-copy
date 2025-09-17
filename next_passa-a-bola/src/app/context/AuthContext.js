@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 const AuthContext = createContext(null);
 
@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
 
         // MODIFICADO: Busca o perfil do utilizador após o login
         try {
-            const res = await fetch(`${API_URL}/api/profiles/me`, {
+            const res = await fetch(apiPath('/api/profiles/me'), {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 

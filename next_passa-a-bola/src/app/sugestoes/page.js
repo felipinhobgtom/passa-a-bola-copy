@@ -1,5 +1,5 @@
 'use client';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 // app/sugestoes/page.js
 
 import { useState, useEffect } from 'react';
@@ -19,7 +19,7 @@ export default function SuggestionsPage() {
     // Função para buscar as sugestões da API
     const fetchSuggestions = async () => {
         try {
-            const res = await fetch(`${API_URL}/api/suggestions/`, { cache: 'no-store' });
+            const res = await fetch(apiPath('/api/suggestions/'), { cache: 'no-store' });
             if (!res.ok) throw new Error('Falha ao carregar as sugestões.');
             const data = await res.json();
             setSuggestions(data);
@@ -44,7 +44,7 @@ export default function SuggestionsPage() {
             return;
         }
 
-    const res = await fetch(`${API_URL}/api/suggestions/`, {
+    const res = await fetch(apiPath('/api/suggestions/'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({ address, description }),
@@ -68,7 +68,7 @@ export default function SuggestionsPage() {
             return;
         }
 
-    const res = await fetch(`${API_URL}/api/suggestions/${suggestionId}/interest`, {
+    const res = await fetch(apiPath(`/api/suggestions/${suggestionId}/interest`), {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${token}` },
         });

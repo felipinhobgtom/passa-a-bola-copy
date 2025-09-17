@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FaPlus, FaSpinner, FaArrowLeft, FaTrophy, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 export default function CreateTournamentPage() {
     // Added states for the new, necessary fields
@@ -49,7 +49,7 @@ export default function CreateTournamentPage() {
         };
 
         try {
-            const res = await fetch(`${API_URL}/api/tournaments/`, {
+            const res = await fetch(apiPath('/api/tournaments/'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

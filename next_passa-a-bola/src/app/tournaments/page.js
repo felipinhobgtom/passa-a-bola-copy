@@ -1,5 +1,5 @@
 'use client';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -25,7 +25,7 @@ export default function TournamentsPage() {
             }
 
             try {
-                const res = await fetch(`${API_URL}/api/tournaments/`, {
+                const res = await fetch(apiPath('/api/tournaments/'), {
                     // **CORRECTION: Add Authorization header**
                     headers: {
                         'Authorization': `Bearer ${token}`

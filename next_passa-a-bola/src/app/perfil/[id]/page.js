@@ -1,25 +1,25 @@
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 import { FaInstagram, FaTwitter, FaBirthdayCake, FaUser, FaEye } from 'react-icons/fa';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import MediaGallery from '../../components/MediaGallery';
 
 async function getProfileData(id) {
-    const res = await fetch(`${API_URL}/api/profiles/${id}`, { cache: 'no-store' });
+    const res = await fetch(apiPath(`/api/profiles/${id}`), { cache: 'no-store' });
     if (!res.ok) notFound();
     return res.json();
 }
 
 async function getProfileMedia(id) {
     // Nota: Crie esta rota no seu backend para retornar as mídias de um perfil
-    const res = await fetch(`${API_URL}/api/profiles/${id}/media`, { cache: 'no-store' });
+    const res = await fetch(apiPath(`/api/profiles/${id}/media`), { cache: 'no-store' });
     if (!res.ok) return [];
     return res.json();
 }
 
 async function getProfileMetrics(id) {
     // Nota: Crie esta rota para retornar as métricas
-    const res = await fetch(`${API_URL}/api/profiles/${id}/metrics`, { cache: 'no-store' });
+    const res = await fetch(apiPath(`/api/profiles/${id}/metrics`), { cache: 'no-store' });
     if (!res.ok) return { view_count: 0 };
     return res.json();
 }

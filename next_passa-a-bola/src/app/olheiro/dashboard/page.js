@@ -1,5 +1,5 @@
 'use client';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 // app/olheiro/dashboard/page.js
 
 import { useState, useEffect } from 'react';
@@ -23,7 +23,7 @@ export default function ScoutDashboard() {
         const token = localStorage.getItem('accessToken');
         const params = new URLSearchParams(filters).toString();
         // Nota: Você precisará criar a rota GET /api/players/search no backend
-        const res = await fetch(`${API_URL}/api/players/search?${params}`, {
+        const res = await fetch(apiPath(`/api/players/search?${params}`), {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {

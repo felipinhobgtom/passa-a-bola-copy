@@ -1,5 +1,5 @@
 'use client';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -33,7 +33,7 @@ const handleSubmit = async (e) => {
         description
     };
 
-    const res = await fetch(`${API_URL}/api/events/`, {
+    const res = await fetch(apiPath('/api/events/'), {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

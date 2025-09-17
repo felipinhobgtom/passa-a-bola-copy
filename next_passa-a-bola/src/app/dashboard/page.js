@@ -3,14 +3,14 @@ import StatCard from '../components/StatCard'; // <-- IMPORTADO
 import NavCard from '../components/NavCard';   // <-- IMPORTADO
 
 // API URL configuration
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 // --- Funções de busca de dados (permanecem as mesmas) ---
 async function getStats() {
     try {
         const [playersRes, eventsRes] = await Promise.all([
-            fetch(`${API_URL}/api/players`, { cache: 'no-store' }),
-            fetch(`${API_URL}/api/events`, { cache: 'no-store' })
+            fetch(apiPath('/api/players'), { cache: 'no-store' }),
+            fetch(apiPath('/api/events'), { cache: 'no-store' })
         ]);
 
         if (!playersRes.ok || !eventsRes.ok) {

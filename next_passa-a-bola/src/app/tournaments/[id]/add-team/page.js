@@ -1,5 +1,5 @@
 'use client';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
@@ -23,7 +23,7 @@ export default function AddTeamPage() {
         const token = localStorage.getItem('accessToken');
         
         try {
-            const res = await fetch(`${API_URL}/api/tournaments/${tournamentId}/teams`, {
+            const res = await fetch(apiPath(`/api/tournaments/${tournamentId}/teams`), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

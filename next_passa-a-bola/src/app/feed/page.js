@@ -6,7 +6,7 @@ import CreatePostForm from '../components/CreatePostForm';
 import PostCard from '../components/PostCard';
 import Sidebar from '../components/Sidebar'
 import { FaUser, FaSearch, FaNewspaper, FaCalendarAlt, FaHandHoldingHeart, FaSpinner } from 'react-icons/fa';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 import Link from 'next/link';
 // Using centralized API_URL from config
 
@@ -23,7 +23,7 @@ export default function FeedPage() {
         }
         try {
 
-            const res = await fetch(`${API_URL}/api/feed`, {
+            const res = await fetch(apiPath('/api/feed'), {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!res.ok) throw new Error('Falha ao buscar o feed');

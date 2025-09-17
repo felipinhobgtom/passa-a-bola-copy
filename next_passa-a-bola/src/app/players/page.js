@@ -2,7 +2,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import PlayerCard from '../components/PlayerCard';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 export default function PlayersPage() {
   const [players, setPlayers] = useState([]);
@@ -16,7 +16,7 @@ export default function PlayersPage() {
       if (position) params.append('position', position);
       if (nationality) params.append('nationality', nationality);
       
-  const res = await fetch(`${API_URL}/api/players?${params.toString()}`);
+  const res = await fetch(apiPath(`/api/players?${params.toString()}`));
       const data = await res.json();
       setPlayers(data);
     }

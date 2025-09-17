@@ -2,7 +2,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 /**
  * Um botão reutilizável que envia uma requisição DELETE para um endpoint da API.
@@ -19,7 +19,7 @@ export default function DeleteButton({ endpoint, redirectUrl }) {
 
         if (confirmed) {
             try {
-                const res = await fetch(`${API_URL}/api/${endpoint}`, {
+                const res = await fetch(apiPath(`/api/${endpoint}`), {
                     method: 'DELETE',
                 });
 

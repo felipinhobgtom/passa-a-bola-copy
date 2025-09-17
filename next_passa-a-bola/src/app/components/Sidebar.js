@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FaUser, FaSearch, FaNewspaper, FaCalendarAlt, FaHandHoldingHeart, FaSpinner } from 'react-icons/fa';
-import API_URL from '../../config/api';
+import API_URL, { apiPath } from '../../config/api';
 
 // Componente para um único item de widget, para evitar repetição
 const WidgetItem = ({ href, children }) => (
@@ -34,7 +34,7 @@ export default function Sidebar() {
                 return;
             }
             try {
-                const res = await fetch(`${API_URL}${url}`, {
+                const res = await fetch(apiPath(url), {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) {

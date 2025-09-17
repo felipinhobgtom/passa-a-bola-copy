@@ -1,4 +1,4 @@
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { FaCalendarAlt, FaMapMarkerAlt, FaPlus, FaTrash, FaUsers } from 'react-icons/fa';
@@ -9,7 +9,7 @@ import { jwtDecode } from 'jwt-decode';
 // --- FUNÇÕES DE BUSCA DE DADOS ---
 async function getTournamentDetails(id) {
     try {
-    const res = await fetch(`${API_URL}/api/tournaments/${id}`, { cache: 'no-store' });
+    const res = await fetch(apiPath(`/api/tournaments/${id}`), { cache: 'no-store' });
         if (!res.ok) {
             if (res.status === 404) notFound();
             throw new Error('Falha ao buscar os detalhes do torneio');
@@ -23,7 +23,7 @@ async function getTournamentDetails(id) {
 
 async function getTournamentMatches(id) {
     try {
-    const res = await fetch(`${API_URL}/api/matches/?tournament_id=${id}`, { cache: 'no-store' });
+    const res = await fetch(apiPath(`/api/matches/?tournament_id=${id}`), { cache: 'no-store' });
         if (!res.ok) return [];
         return res.json();
     } catch (error) {
@@ -34,7 +34,7 @@ async function getTournamentMatches(id) {
 
 async function getTournamentTeams(id) {
     try {
-    const res = await fetch(`${API_URL}/api/tournaments/${id}/teams`, { cache: 'no-store' });
+    const res = await fetch(apiPath(`/api/tournaments/${id}/teams`), { cache: 'no-store' });
         if (!res.ok) return [];
         return res.json();
     } catch (error) {

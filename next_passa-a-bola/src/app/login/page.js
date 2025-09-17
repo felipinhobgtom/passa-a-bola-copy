@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import Link from 'next/link';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -28,7 +28,7 @@ export default function LoginPage() {
         formData.append('password', senha);
 
         try {
-            const res = await fetch(`${API_URL}/auth/login`, {
+            const res = await fetch(apiPath('/auth/login'), {
                 method: 'POST',
                 body: formData,
             });

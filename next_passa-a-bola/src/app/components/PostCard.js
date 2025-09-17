@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image'; // Usar o Image do Next.js para otimização
 import { FaHeart, FaRegHeart, FaRegCommentDots, FaShare, FaSpinner } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 export default function PostCard({ post }) {
     const { userId, isLoggedIn } = useAuth(); 
@@ -32,7 +32,7 @@ export default function PostCard({ post }) {
 
         try {
             const token = localStorage.getItem('accessToken');
-            await fetch(`${API_URL}/api/feed/posts/${post._id}/like`, {
+            await fetch(apiPath(`/api/feed/posts/${post._id}/like`), {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -51,7 +51,7 @@ export default function PostCard({ post }) {
         setIsLoadingComments(true);
         try {
             const token = localStorage.getItem('accessToken');
-            const res = await fetch(`${API_URL}/api/feed/posts/${post._id}/comments`, {
+            const res = await fetch(apiPath(`/api/feed/posts/${post._id}/comments`), {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -80,7 +80,7 @@ export default function PostCard({ post }) {
         setIsSubmittingComment(true);
         try {
             const token = localStorage.getItem('accessToken');
-            const res = await fetch(`${API_URL}/api/feed/posts/${post._id}/comments`, {
+            const res = await fetch(apiPath(`/api/feed/posts/${post._id}/comments`), {
                 method: 'POST',
                 headers: { 
                     'Authorization': `Bearer ${token}`,

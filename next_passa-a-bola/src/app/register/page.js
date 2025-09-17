@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 import Image from 'next/image'; // Importar o componente Image do Next.js
 
 export default function RegisterPage() {
@@ -30,7 +30,7 @@ export default function RegisterPage() {
         setIsError(false);
 
         try {
-            const res = await fetch(`${API_URL}/auth/register`, {
+            const res = await fetch(apiPath('/auth/register'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, senha, role }),

@@ -1,5 +1,5 @@
 'use client';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -35,7 +35,7 @@ export default function CreateSocialProjectPage() {
             image_url: image_url || null,
         };
 
-        const res = await fetch(`${API_URL}/api/social-projects/`, {
+        const res = await fetch(apiPath('/api/social-projects/'), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

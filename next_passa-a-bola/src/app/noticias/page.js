@@ -1,5 +1,5 @@
 'use client';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -25,7 +25,7 @@ export default function NewsPage() {
 
         async function fetchArticles() {
             try {
-                const res = await fetch(`${API_URL}/api/news/`, {
+                const res = await fetch(apiPath('/api/news/'), {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (!res.ok) throw new Error('Falha ao buscar notícias');

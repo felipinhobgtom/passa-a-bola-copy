@@ -1,9 +1,9 @@
 // app/events/page.js
 import EventsView from '../components/EventsView';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 async function getEvents() {
-    const res = await fetch(`${API_URL}/api/events`, { cache: 'no-store' });
+    const res = await fetch(apiPath('/api/events'), { cache: 'no-store' });
     if (!res.ok) {
         console.error("Failed to fetch events from API");
         return [];

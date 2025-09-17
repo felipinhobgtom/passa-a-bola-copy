@@ -1,5 +1,5 @@
 'use client';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -25,7 +25,7 @@ export default function SocialProjectsPage() {
 
         async function fetchProjects() {
             try {
-                const res = await fetch(`${API_URL}/api/social-projects/`, {
+                const res = await fetch(apiPath('/api/social-projects/'), {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (!res.ok) throw new Error('Falha ao buscar projetos');

@@ -4,7 +4,7 @@ import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { FaImage, FaPaperPlane, FaSpinner, FaTimes } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext'; // Para pegar a imagem do usuário
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 export default function CreatePostForm({ onPostCreated }) {
     const { user } = useAuth(); // Supondo que o contexto forneça o objeto do usuário com a imagem
@@ -53,7 +53,7 @@ export default function CreatePostForm({ onPostCreated }) {
         }
 
         try {
-            const res = await fetch(`${API_URL}/api/feed/posts`, {
+            const res = await fetch(apiPath('/api/feed/posts'), {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: formData,

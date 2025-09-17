@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { FaSpinner, FaUsers, FaCalendarAlt, FaPlus, FaArrowLeft } from 'react-icons/fa';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 
 // Componente reutilizável para a lista de seleção de jogadoras
 const PlayerSelectList = ({ players, selectedPlayers, onSelectionChange }) => {
@@ -61,7 +61,7 @@ export default function AddMatchPage() {
     useEffect(() => {
         async function fetchPlayers() {
             try {
-                const res = await fetch(`${API_URL}/api/players`);
+                const res = await fetch(apiPath('/api/players'));
                 if (!res.ok) throw new Error("Failed to fetch players");
                 const data = await res.json();
                 setAllPlayers(data);
@@ -101,7 +101,7 @@ export default function AddMatchPage() {
         };
 
         try {
-            const res = await fetch(`${API_URL}/api/matches/`, {
+            const res = await fetch(apiPath('/api/matches/'), {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json",

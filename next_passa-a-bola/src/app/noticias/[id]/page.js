@@ -1,5 +1,5 @@
 'use client';
-import API_URL from '@/config/api';
+import API_URL, { apiPath } from '@/config/api';
 // app/noticias/[id]/page.js
 
 import { useState, useEffect } from 'react';
@@ -23,7 +23,7 @@ export default function ArticlePage() {
 
         async function fetchArticleDetails() {
             try {
-                const res = await fetch(`${API_URL}/api/news/${id}`, {
+                const res = await fetch(apiPath(`/api/news/${id}`), {
                     cache: 'no-store',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
