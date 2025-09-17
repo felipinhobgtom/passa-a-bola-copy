@@ -163,10 +163,15 @@ class QueueEntry(BaseModel):
 
 # Atualizar o modelo TournamentBase
 class TournamentBase(BaseModel):
-    # ... campos existentes
+    name: str
+    description: Optional[str] = None
+    teams: List[str] = Field(default_factory=list)
+
+    # --- ADICIONE ESTES CAMPOS ---
+    start_date: Optional[datetime] = None
+    end_date: Optional[datetime] = None
+    location: Optional[str] = None
     registration_open: bool = False
-    max_teams: int
-    max_players_per_team: int
 
 class LocationSuggestion(BaseModel):
     id: PyObjectId = Field(alias="_id", default=None)
@@ -257,8 +262,13 @@ class SocialLinks(BaseModel):
     facebook: Optional[str] = None
 
 class PlayerProfile(BaseModel):
+    # --- ALTERE A LINHA ABAIXO ---
+    # Antes:
+    # id: str = Field(..., alias="_id")
+    # Depois:
     id: PyObjectId = Field(..., alias="_id")
     
+
     user_id: str
     full_name: Optional[str] = None
     birth_date: Optional[date] = None

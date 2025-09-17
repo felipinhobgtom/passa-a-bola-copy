@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // Usar o Image do Next.js para otimização
+import Image from 'next/image';
 import { FaHeart, FaRegHeart, FaRegCommentDots, FaShare, FaSpinner } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import API_URL, { apiPath } from '@/config/api';
@@ -13,7 +13,6 @@ export default function PostCard({ post }) {
     const [likeCount, setLikeCount] = useState(post.likes?.length || 0);
     const [isLiked, setIsLiked] = useState(userId ? post.likes?.includes(userId) : false);
 
-    // Estados para a seção de comentários
     const [comments, setComments] = useState([]);
     const [showComments, setShowComments] = useState(false);
     const [newComment, setNewComment] = useState('');
@@ -21,12 +20,11 @@ export default function PostCard({ post }) {
     const [isSubmittingComment, setIsSubmittingComment] = useState(false);
 
     const handleLike = async () => {
-        if (!isLoggedIn) return; // Impede a ação se não estiver logado
+        if (!isLoggedIn) return;
 
         const originalIsLiked = isLiked;
         const originalLikeCount = likeCount;
 
-        // Lógica otimista
         setIsLiked(!originalIsLiked);
         setLikeCount(originalIsLiked ? originalLikeCount - 1 : originalLikeCount + 1);
 
@@ -36,17 +34,15 @@ export default function PostCard({ post }) {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            // A API confirma o estado, não precisamos fazer nada se der sucesso
         } catch (error) {
             console.error("Falha ao curtir o post:", error);
-            // Reverte a UI em caso de erro
             setIsLiked(originalIsLiked);
             setLikeCount(originalLikeCount);
         }
     };
 
     const fetchComments = async () => {
-        if (comments.length > 0) return; // Não busca novamente se já tiver carregado
+        if (comments.length > 0) return;
 
         setIsLoadingComments(true);
         try {
@@ -68,7 +64,7 @@ export default function PostCard({ post }) {
     const handleToggleComments = () => {
         const newShowState = !showComments;
         setShowComments(newShowState);
-        if (newShowState) { // Se estiver abrindo a seção, busca os comentários
+        if (newShowState) {
             fetchComments();
         }
     };
@@ -91,8 +87,8 @@ export default function PostCard({ post }) {
 
             if (res.ok) {
                 const createdComment = await res.json();
-                setComments(prev => [...prev, createdComment]); // Adiciona o novo comentário à lista
-                setNewComment(''); // Limpa o input
+                setComments(prev => [...prev, createdComment]);
+                setNewComment('');
             }
         } catch (error) {
             console.error("Falha ao enviar comentário:", error);
@@ -101,13 +97,14 @@ export default function PostCard({ post }) {
         }
     };
     
-    // Cores e outras variáveis
     const primaryPink = '#E84F7F';
     const primaryPurple = '#8A2BE2';
     const cardBg = '#2D3748';
     const textColor = '#CBD5E0';
     const mutedColor = '#718096';
-    const hasValidLink = post.author_user_id;
+    
+    // CORREÇÃO: Usar 'author_profile_id' que é o campo correto vindo da API
+    const hasValidLink = post.author_profile_id;
 
     return (
         <div 
@@ -115,10 +112,10 @@ export default function PostCard({ post }) {
             style={{ backgroundColor: cardBg }}
         >
             <div className="p-5">
-                {/* Cabeçalho do Post */}
                 <div className="flex items-center gap-4 mb-4">
+                    {/* CORREÇÃO: Usar 'author_profile_id' no Link */}
                     {hasValidLink ? (
-                        <Link href={`/perfil/${post.author_user_id}`}>
+                        <Link href={`/profile/${post.author_profile_id}`}>
                             <div className="relative w-12 h-12 cursor-pointer">
                                 <Image 
                                     src={post.author_image_url || '/default-avatar.png'} 
@@ -139,8 +136,9 @@ export default function PostCard({ post }) {
                         </div>
                     )}
                     <div>
+                        {/* CORREÇÃO: Usar 'author_profile_id' no Link */}
                         {hasValidLink ? (
-                            <Link href={`/perfil/${post.author_user_id}`} className="font-bold text-white hover:underline" style={{ textDecorationColor: primaryPurple }}>
+                            <Link href={`/profile/${post.author_profile_id}`} className="font-bold text-white hover:underline" style={{ textDecorationColor: primaryPurple }}>
                                 {post.author_name || 'Autora Desconhecida'}
                             </Link>
                         ) : (
@@ -152,13 +150,11 @@ export default function PostCard({ post }) {
                     </div>
                 </div>
 
-                {/* Conteúdo do Post */}
                 <p className="whitespace-pre-wrap text-lg" style={{ color: textColor }}>
                     {post.content}
                 </p>
             </div>
 
-            {/* Imagem do Post */}
             {post.image_url && (
                 <div className="relative w-full aspect-video mt-2">
                     <Image 
@@ -170,23 +166,21 @@ export default function PostCard({ post }) {
                 </div>
             )}
 
-            {/* Ações do Post */}
             <div className="flex justify-around items-center p-2 border-t" style={{ borderColor: '#4A5568' }}>
-                <button onClick={handleLike} className="...">
-                    {isLiked ? <FaHeart size={20} /> : <FaRegHeart size={20} />}
+                <button onClick={handleLike} className="flex items-center gap-2 p-2 rounded-lg hover:bg-white/10 transition-colors text-gray-300 hover:text-white">
+                    {isLiked ? <FaHeart size={20} style={{ color: primaryPink }} /> : <FaRegHeart size={20} />}
                     <span>{likeCount}</span>
                 </button>
-                <button onClick={handleToggleComments} className="...">
+                <button onClick={handleToggleComments} className="flex items-center gap-2 p-2 rounded-lg hover:bg-white/10 transition-colors text-gray-300 hover:text-white">
                     <FaRegCommentDots size={20} />
                     <span>Comentar</span>
                 </button>
-                <button className="...">
+                <button className="flex items-center gap-2 p-2 rounded-lg hover:bg-white/10 transition-colors text-gray-300 hover:text-white">
                     <FaShare size={20} />
                     <span>Compartilhar</span>
                 </button>
             </div>
 
-            {/* Seção de Comentários (Condicional) */}
             {showComments && (
                 <div className="p-5 border-t" style={{ borderColor: '#4A5568' }}>
                     {isLoadingComments ? (
@@ -204,7 +198,6 @@ export default function PostCard({ post }) {
                         </div>
                     )}
                     
-                    {/* Formulário para novo comentário */}
                     <form onSubmit={handleCommentSubmit} className="flex gap-2">
                         <input
                             type="text"

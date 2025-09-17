@@ -4,13 +4,14 @@ from database import tournaments_collection, teams_collection
 from bson import ObjectId
 from typing import List
 from security import get_current_admin_user
+from security import get_current_user
 
 router = APIRouter()
 
 @router.post("", status_code=status.HTTP_201_CREATED, response_model=TournamentResponse)
 def create_tournament(
     tournament: TournamentCreate = Body(...),
-    current_user: UserInDB = Depends(get_current_admin_user)
+    current_user: UserInDB = Depends(get_current_user) 
 ):
     """Creates a new tournament (Admins Only)."""
     tournament_dict = tournament.model_dump(by_alias=True)
