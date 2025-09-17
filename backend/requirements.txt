@@ -1,0 +1,20 @@
+# Core FastAPI dependencies
+fastapi==0.104.1
+uvicorn==0.24.0
+
+# Pydantic v2 for data validation
+pydantic==2.5.0
+
+# Database and authentication
+pymongo[srv]==4.6.0
+bcrypt==4.0.1
+passlib==1.7.4
+python-jose[cryptography]==3.3.0
+cryptography==41.0.7
+
+# Other utilities
+python-dotenv==1.0.0
+email-validator==2.0.0
+python-multipart==0.0.6
+httpx==0.25.2
+cloudinary==1.37.0
