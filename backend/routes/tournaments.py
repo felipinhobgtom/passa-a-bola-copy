@@ -7,7 +7,7 @@ from security import get_current_admin_user
 
 router = APIRouter()
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=TournamentResponse)
+@router.post("", status_code=status.HTTP_201_CREATED, response_model=TournamentResponse)
 def create_tournament(
     tournament: TournamentCreate = Body(...),
     current_user: UserInDB = Depends(get_current_admin_user)
@@ -22,7 +22,7 @@ def create_tournament(
         return TournamentResponse.model_validate(new_tournament)
     raise HTTPException(status_code=500, detail="Failed to create and retrieve tournament.")
 
-@router.get("/", response_model=List[TournamentResponse])
+@router.get("", response_model=List[TournamentResponse])
 def get_all_tournaments():
     tournaments = list(tournaments_collection.find())
     for tournament in tournaments:

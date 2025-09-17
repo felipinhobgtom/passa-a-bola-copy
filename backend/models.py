@@ -258,8 +258,8 @@ class SocialLinks(BaseModel):
 
 class PlayerProfile(BaseModel):
     id: PyObjectId = Field(..., alias="_id")
+    
     user_id: str
-    # Torne os campos que podem estar em branco opcionais
     full_name: Optional[str] = None
     birth_date: Optional[date] = None
     position: Optional[str] = None
@@ -267,10 +267,11 @@ class PlayerProfile(BaseModel):
     image_url: Optional[str] = None
     social_links: Optional[SocialLinks] = None
     
-    class Config:
-        json_encoders = {ObjectId: str}
-        populate_by_name = True
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(
+        populate_by_name=True,
+        arbitrary_types_allowed=True,
+        json_encoders={ObjectId: str} # Esta linha se torna opcional, mas pode manter
+    )
 
 class Media(BaseModel):
     id: PyObjectId = Field(alias="_id", default=None)

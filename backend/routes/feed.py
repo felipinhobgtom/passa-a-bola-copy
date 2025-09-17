@@ -44,7 +44,7 @@ def create_post(
     return Post.model_validate(new_post)
 
 
-@router.get("/", response_model=List[PostInFeed])
+@router.get("", response_model=List[PostInFeed])
 def get_feed(current_user: UserInDB = Depends(get_current_user)):
     """Busca as postagens para o feed, incluindo informações do autor."""
     pipeline = [

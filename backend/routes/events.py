@@ -22,7 +22,7 @@ async def geocode_address(address: str):
         # Retorna a latitude e longitude do primeiro resultado
         return {"latitude": float(data[0]["lat"]), "longitude": float(data[0]["lon"])}
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=EventResponse)
+@router.post("", status_code=status.HTTP_201_CREATED, response_model=EventResponse)
 async def create_event( # A função agora precisa ser 'async'
     event_data: EventCreate = Body(...),
     current_user: UserInDB = Depends(get_current_admin_user)
@@ -52,7 +52,7 @@ async def create_event( # A função agora precisa ser 'async'
     return EventResponse.model_validate(new_event)
 
 # Rota get_all_events
-@router.get("/", response_model=List[EventResponse])
+@router.get("", response_model=List[EventResponse])
 def get_all_events():
     events = list(events_collection.find())
     for event in events:

@@ -82,7 +82,7 @@ export default function Sidebar() {
             <div className="bg-[#2D3748] p-5 rounded-xl border-t-4 border-[#4CAF50]">
                 <h3 className="font-bold text-xl mb-4">Navegação</h3>
                 <ul className="space-y-3">
-                    <li><Link href="/perfil" className="flex items-center gap-3 hover:text-[#E84F7F] transition-colors"><FaUser /> Meu Perfil</Link></li>
+                    <li><Link href="/profile" className="flex items-center gap-3 hover:text-[#E84F7F] transition-colors"><FaUser /> Meu Perfil</Link></li>
                     <li><Link href="/players" className="flex items-center gap-3 hover:text-[#E84F7F] transition-colors"><FaSearch /> Procurar Jogadoras</Link></li>
                     <li><Link href="/noticias" className="flex items-center gap-3 hover:text-[#E84F7F] transition-colors"><FaNewspaper /> Notícias</Link></li>
                 </ul>

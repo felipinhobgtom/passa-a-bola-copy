@@ -11,7 +11,7 @@ router = APIRouter()
 
 MINIMUM_PLAYERS_TO_CONFIRM = 10
 
-@router.post("/", response_model=LocationSuggestion)
+@router.post("", response_model=LocationSuggestion)
 async def suggest_location(
     suggestion_data: LocationSuggestionCreate,
     current_user: UserInDB = Depends(get_current_user)
@@ -69,7 +69,7 @@ def confirm_interest(
     return LocationSuggestion.model_validate(updated_suggestion)
 
 # Rota get_all_suggestions
-@router.get("/", response_model=List[LocationSuggestion])
+@router.get("", response_model=List[LocationSuggestion])
 def get_all_suggestions():
     suggestions = list(suggestions_collection.find({"status": "suggested"}))
     for suggestion in suggestions:

@@ -7,7 +7,7 @@ from bson import ObjectId
 
 router = APIRouter()
 
-@router.post("/", response_model=SocialProject, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=SocialProject, status_code=status.HTTP_201_CREATED)
 def create_social_project(
     project_data: SocialProjectCreate,
     current_user: UserInDB = Depends(get_current_admin_user)
@@ -19,7 +19,7 @@ def create_social_project(
     return SocialProject.model_validate(new_project)
 
 # Rota get_all_social_projects
-@router.get("/", response_model=List[SocialProject])
+@router.get("", response_model=List[SocialProject])
 def get_all_social_projects(current_user: UserInDB = Depends(get_current_user)):
     projects = list(social_projects_collection.find())
     for project in projects:

@@ -9,7 +9,7 @@ from datetime import datetime
 
 router = APIRouter()
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=MatchResponse)
+@router.post("", status_code=status.HTTP_201_CREATED, response_model=MatchResponse)
 def create_match(
     match: MatchCreate = Body(...),
     current_user: UserInDB = Depends(get_current_admin_user) # Route is correctly protected
@@ -32,7 +32,7 @@ def create_match(
     raise HTTPException(status_code=500, detail="Failed to create and retrieve the match.")
 
 # Rota get_all_matches
-@router.get("/", response_model=List[MatchResponse])
+@router.get("", response_model=List[MatchResponse])
 def get_all_matches(tournament_id: str = Query(None, description="Filtra os jogos por ID do torneio")):
     query = {}
     if tournament_id:

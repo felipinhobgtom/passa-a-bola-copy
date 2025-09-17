@@ -12,7 +12,7 @@ load_dotenv()
 router = APIRouter()
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 
-@router.get("/", response_model=List[Article])
+@router.get("", response_model=List[Article])
 async def get_and_store_articles(current_user: UserInDB = Depends(get_current_user)):
     """
     Busca notícias da API externa, salva no DB se forem novas,
