@@ -14,9 +14,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000",  # Allows your Next.js frontend to connect
-        "http://next_passa-a-bola:3000",  # Docker container communication
-        "http://127.0.0.1:8000"  # Backend self-reference
+    "*"# Backend self-reference
     ],
     allow_credentials=True,
     allow_methods=["*"],

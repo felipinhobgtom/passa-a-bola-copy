@@ -7,6 +7,8 @@ from bson import ObjectId
 import cloudinary
 import cloudinary.uploader
 from datetime import datetime, date
+import pprint
+from pydantic import ValidationError
 
 router = APIRouter()
 
@@ -35,13 +37,25 @@ def update_my_profile(profile_data: PlayerProfileUpdate, current_user: UserInDB 
     updated_profile = player_profiles_collection.find_one({"user_id": str(current_user.id)})
     return PlayerProfile.model_validate(updated_profile)
 
+# profiles.py
 @router.get("/me", response_model=PlayerProfile)
 def get_my_profile(current_user: UserInDB = Depends(get_player_user)):
-    # ... (código da função)
     profile = player_profiles_collection.find_one({"user_id": str(current_user.id)})
     if not profile:
         raise HTTPException(status_code=404, detail="Perfil ainda não criado.")
-    return PlayerProfile.model_validate(profile)
+
+    # DEBUG: Imprime os dados brutos do MongoDB
+    print("--- DADOS DO PERFIL DO BANCO ---")
+    pprint.pprint(profile)
+    print("---------------------------------")
+
+    try:
+        # Tenta validar os dados com o modelo Pydantic
+        return PlayerProfile.model_validate(profile)
+    except ValidationError as e:
+        # Captura e imprime o erro de validação detalhado
+        print(f"!!! ERRO DE VALIDAÇÃO PYDANTIC !!!\n{e}\n")
+        raise HTTPException(status_code=500, detail="Erro ao processar os dados do perfil.")
 
 @router.post("/me/media", response_model=Media)
 def upload_media_for_current_user(file: UploadFile = File(...), current_user: UserInDB = Depends(get_player_user)):
@@ -85,12 +99,12 @@ def get_profile_media(user_id: str):
 
 @router.get("/{user_id}", response_model=PlayerProfile)
 def get_player_profile_by_id(user_id: str):
-    """Busca um perfil de jogadora público pelo seu ID de USUÁRIO."""
-    # Buscamos o perfil pelo user_id
     profile = player_profiles_collection.find_one({"user_id": user_id})
     if not profile:
         raise HTTPException(status_code=404, detail="Perfil não encontrado.")
-        
+
+    profile["_id"] = str(profile["_id"])
+
     return PlayerProfile.model_validate(profile)
 
 @router.post("/me/profile-picture", response_model=PlayerProfile)

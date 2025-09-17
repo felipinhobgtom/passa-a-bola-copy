@@ -257,7 +257,7 @@ class SocialLinks(BaseModel):
     facebook: Optional[str] = None
 
 class PlayerProfile(BaseModel):
-    id: PyObjectId = Field(alias="_id", default=None)
+    id: PyObjectId = Field(..., alias="_id")
     user_id: str
     # Torne os campos que podem estar em branco opcionais
     full_name: Optional[str] = None
